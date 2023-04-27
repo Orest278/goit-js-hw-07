@@ -1,29 +1,36 @@
 import { galleryItems } from './gallery-items.js';
 // Change code below this line
+// console.log(createImageMarkup(galleryItems));
 
 const galleryEl = document.querySelector(`.gallery`);
+const imageMarkup = createImageMarkup(galleryItems);
 
-let markup = ``;
+galleryEl.insertAdjacentHTML(`beforeend`, imageMarkup);
 
-galleryItems.map((elem, i) => {
-    markup += `<li class = "gallery__item">
-    <a class="gallery__link" href="${galleryItems[i].original}">
-    <img class="gallery__image" src="${galleryItems[i].preview}" 
-    data-source="${galleryItems[i].original}"
-    alt="${galleryItems[i].description}"/></a></li>`
-});
+function createImageMarkup(galleryItems) {
+    return galleryItems.map(({ preview, original, description }) => {
+            return `<li class = "gallery__item">
+   <a class="gallery__link" href="${original}">
+     <img class="gallery__image" src="${preview}" 
+    data-source="${original}"
+     alt="${description}"/></a></li>`
+    ;
+        })
+        .join(``);
+}
 
-galleryEl.insertAdjacentHTML(`afterbegin`, markup);
-// ========================================================
-galleryEl.addEventListener(`click`, onLinkClicl);
-let source = ``;
-function onLinkClicl(e) {
+// // ========================================================
+galleryEl.addEventListener(`click`, onClick);
 
-    e.preventDefault();
-    if (e.target.nodeName !== `IMG`) {
+function onClick(evt) {
+    evt.preventDefault();
+
+    if (evt.target.nodeName !== `IMG`) {
         return;
-    } 
+    }
 
-    const instance = basicLightbox.create(`<img src=${source}>`)
+  const instance = basicLightbox.create(`
+    <img src="${evt.target.dataset.source}" width="800" height="600">
+`);
     instance.show();
 }

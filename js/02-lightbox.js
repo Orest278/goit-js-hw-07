@@ -2,23 +2,26 @@ import { galleryItems } from './gallery-items.js';
 // Change code below this line
 
 
-const galleryElSimple = document.querySelector(`.gallery`);
+const galleryEl = document.querySelector(`.gallery`);
+const imageMarkup = createImageMarkup(galleryItems);
 
-let markup = ``;
+galleryEl.insertAdjacentHTML(`beforeend`, imageMarkup);
 
-galleryItems.map((elem, i) => {
-    markup += `<li class = "gallery__item">
-    <a class="gallery__link" href="${galleryItems[i].original}">
-    <img class="gallery__image" src="${galleryItems[i].preview}" 
-    data-source="${galleryItems[i].original}"
-    alt="${galleryItems[i].description}"/></a></li>`
-});
-
-galleryElSimple.insertAdjacentHTML(`afterbegin`, markup);
+function createImageMarkup(galleryItems) {
+    return galleryItems.map(({ preview, original, description }) => {
+            return `<li class = "gallery__item">
+   <a class="gallery__link" href="${original}">
+     <img class="gallery__image" src="${preview}" 
+    data-source="${original}"
+     alt="${description}"/></a></li>`
+    ;
+        })
+        .join(``);
+}
 // ===========================================================
 
 
-var lightbox = new SimpleLightbox('.gallery a', { 
+const lightbox = new SimpleLightbox('.gallery a', { 
     captionsData: `alt`,
     captionDelay: 250,
  });
