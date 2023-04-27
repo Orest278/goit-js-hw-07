@@ -22,9 +22,7 @@ function onLinkClicl(e) {
     e.preventDefault();
     if (e.target.nodeName !== `IMG`) {
         return;
-    } else {
-        source = e.target.dataset.source;
-    }
+    } 
 
     const instance = basicLightbox.create(`<img src=${source}>`)
     instance.show();
